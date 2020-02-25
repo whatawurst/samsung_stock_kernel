@@ -1317,7 +1317,7 @@ endif
 ifneq "$(ANDROID_MAJOR_VERSION)" "p"
 include/config/auto.conf: FORCE
 endif
-ifneq "$(ANDROID_VERSION)" "990000"
+ifneq "$(ANDROID_VERSION)" "90000"
 include/config/auto.conf: FORCE
 endif
 ifneq "$(SRCARCH)" "arm64"

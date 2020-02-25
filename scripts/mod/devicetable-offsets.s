@@ -3,7 +3,8 @@
 	.globl	main                    // -- Begin function main
 	.p2align	2
 	.type	main,@function
-main:                                   // @main
+	nop                             // @main
+main:
 .Lfunc_begin0:
 	.file	1 "scripts/mod/devicetable-offsets.c"
 	.loc	1 10 0                  // scripts/mod/devicetable-offsets.c:10:0
@@ -820,15 +821,15 @@ main:                                   // @main
                                         // -- End function
 	.section	.debug_str,"MS",@progbits,1
 .Linfo_string0:
-	.asciz	"Android (4639204 based on r316199) clang version 6.0.1 (https://android.googlesource.com/toolchain/clang 279c0d3a962121a6d1d535e7b0b5d9d36d3c829d) (https://android.googlesource.com/toolchain/llvm aadd87ffb6a2eafcb577913073d46b20195a9cdc) (based on LLVM 6.0.1svn)" // string offset=0
+	.asciz	"Android (4639204-cfp-jopp based on r316199) clang version 6.0.1 (https://android.googlesource.com/toolchain/clang 279c0d3a962121a6d1d535e7b0b5d9d36d3c829d) (https://android.googlesource.com/toolchain/llvm aadd87ffb6a2eafcb577913073d46b20195a9cdc) (based on LLVM 6.0.1svn)" // string offset=0
 .Linfo_string1:
-	.asciz	"scripts/mod/devicetable-offsets.c" // string offset=263
+	.asciz	"scripts/mod/devicetable-offsets.c" // string offset=272
 .Linfo_string2:
-	.asciz	"/home/thuy/GATHER/G970F/OPENSOURCE_G970FXXU3ASIG_CL16887086_Kernel" // string offset=297
+	.asciz	"/home/dpi/qb5_8814/workspace/P4_1716/android/kernel/exynos9820" // string offset=306
 .Linfo_string3:
-	.asciz	"main"                  // string offset=364
+	.asciz	"main"                  // string offset=369
 .Linfo_string4:
-	.asciz	"int"                   // string offset=369
+	.asciz	"int"                   // string offset=374
 	.section	.debug_abbrev,"",@progbits
 	.byte	1                       // Abbreviation Code
 	.byte	17                      // DW_TAG_compile_unit
@@ -942,7 +943,7 @@ main:                                   // @main
 	.word	0                       // End Mark
 .LpubTypes_end0:
 
-	.ident	"Android (4639204 based on r316199) clang version 6.0.1 (https://android.googlesource.com/toolchain/clang 279c0d3a962121a6d1d535e7b0b5d9d36d3c829d) (https://android.googlesource.com/toolchain/llvm aadd87ffb6a2eafcb577913073d46b20195a9cdc) (based on LLVM 6.0.1svn)"
+	.ident	"Android (4639204-cfp-jopp based on r316199) clang version 6.0.1 (https://android.googlesource.com/toolchain/clang 279c0d3a962121a6d1d535e7b0b5d9d36d3c829d) (https://android.googlesource.com/toolchain/llvm aadd87ffb6a2eafcb577913073d46b20195a9cdc) (based on LLVM 6.0.1svn)"
 	.section	".note.GNU-stack","",@progbits
 	.section	.debug_line,"",@progbits
 .Lline_table_start0:
