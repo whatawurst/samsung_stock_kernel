@@ -692,6 +692,7 @@ static netdev_tx_t eth_start_xmit(struct sk_buff *skb,
 	unsigned long	tx_timeout;
 	bool eth_multi_pkt_xfer = 0;
 	bool eth_supports_multi_frame = 0;
+	bool eth_is_fixed = 0;
 
 	if (dev->en_timer) {
 		hrtimer_cancel(&dev->tx_timer);
@@ -704,6 +705,7 @@ static netdev_tx_t eth_start_xmit(struct sk_buff *skb,
 		cdc_filter = dev->port_usb->cdc_filter;
 		eth_multi_pkt_xfer = dev->port_usb->multi_pkt_xfer;
 		eth_supports_multi_frame = dev->port_usb->supports_multi_frame;
+		eth_is_fixed = dev->port_usb->is_fixed;
 	} else {
 		in = NULL;
 		cdc_filter = 0;
@@ -1076,8 +1078,8 @@ struct eth_dev *gether_setup_name(struct usb_gadget *g,
 		free_netdev(net);
 		dev = ERR_PTR(status);
 	} else {
-		INFO(dev, "MAC %pM\n", net->dev_addr);
-		INFO(dev, "HOST MAC %pM\n", dev->host_mac);
+		DBG(dev, "MAC %pM\n", net->dev_addr);
+		DBG(dev, "HOST MAC %pM\n", dev->host_mac);
 
 		/*
 		 * two kinds of host-initiated state changes:

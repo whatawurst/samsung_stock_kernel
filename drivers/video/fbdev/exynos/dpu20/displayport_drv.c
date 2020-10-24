@@ -341,7 +341,7 @@ static int displayport_full_link_training(void)
 	}
 
 	displayport_reg_dpcd_read(DPCD_ADD_TRAINING_AUX_RD_INTERVAL, 1, val);
-	training_aux_rd_interval = val[0];
+	training_aux_rd_interval = val[0] & 0x7F;
 
 Reduce_Link_Rate_Retry:
 	displayport_info("Reduce_Link_Rate_Retry(0x%X)\n", link_rate);
@@ -424,7 +424,10 @@ Voltage_Swing_Retry:
 	displayport_info("Voltage_Swing_Retry %02x %02x %02x %02x\n", val[0], val[1], val[2], val[3]);
 	displayport_reg_dpcd_write_burst(DPCD_ADD_TRANING_LANE0_SET, 4, val);
 
-	udelay((training_aux_rd_interval*4000)+400);
+	if (training_aux_rd_interval != 0)
+		usleep_range(training_aux_rd_interval * 4000, training_aux_rd_interval * 4000);
+	else
+		usleep_range(100, 101);
 
 	lane_cr_done = 0;
 
@@ -607,7 +610,10 @@ EQ_Training_Retry:
 	lane_symbol_locked_done = 0;
 	interlane_align_done = 0;
 
-	udelay((training_aux_rd_interval*4000)+400);
+	if (training_aux_rd_interval != 0)
+		usleep_range(training_aux_rd_interval * 4000, training_aux_rd_interval * 4000);
+	else
+		usleep_range(400, 401);
 
 	displayport_reg_dpcd_read_burst(DPCD_ADD_LANE0_1_STATUS, 3, val);
 	lane_cr_done |= ((val[0] & LANE0_CR_DONE) >> 0);
@@ -3089,6 +3095,11 @@ static ssize_t phy_tune_store(struct class *dev,
 	int i = 0;
 	int *phy_tune_param;
 
+	if (strnchr(buf, size, '-')) {
+		pr_err("%s range option not allowed\n", __func__);
+		return -EINVAL;
+	}
+
 	get_options(buf, 22, val);
 	if (val[0] != 21 || val[1] > 3 || val[1] < 0) {
 		displayport_info("phy tune: invalid input %d %d\n", val[0], val[1]);
@@ -3162,6 +3173,11 @@ static ssize_t audio_test_store(struct class *dev,
 {
 	int val[6] = {0,};
 	struct fb_audio *aud_info = edid_get_test_audio_info();
+
+	if (strnchr(buf, size, '-')) {
+		pr_err("%s range option not allowed\n", __func__);
+		return -EINVAL;
+	}
 
 	get_options(buf, 4, val);
 	if (val[0] != 3) {
@@ -3350,6 +3366,11 @@ static ssize_t dp_drm_store(struct class *dev, struct class_attribute *attr, con
 	struct displayport_device *displayport = get_displayport_drvdata();
 	int val[3] = {0, };
 
+	if (strnchr(buf, size, '-')) {
+		pr_err("%s range option not allowed\n", __func__);
+		return -EINVAL;
+	}
+
 	get_options(buf, 2, val);
 
 	displayport->drm_start_state = val[1];
@@ -3399,6 +3420,11 @@ static ssize_t dp_test_store(struct class *dev,
 	struct displayport_device *displayport = get_displayport_drvdata();
 	struct displayport_audio_config_data audio_config_data;
 	int val[8] = {0,};
+
+	if (strnchr(buf, size, '-')) {
+		pr_err("%s range option not allowed\n", __func__);
+		return -EINVAL;
+	}
 
 	get_options(buf, 6, val);
 
@@ -3543,6 +3569,11 @@ static ssize_t forced_resolution_store(struct class *dev,
 {
 	int val[4] = {0,};
 
+	if (strnchr(buf, size, '-')) {
+		pr_err("%s range option not allowed\n", __func__);
+		return -EINVAL;
+	}
+
 	get_options(buf, 4, val);
 
 	reduced_resolution = 0;
@@ -3579,6 +3610,11 @@ static ssize_t reduced_resolution_store(struct class *dev,
 		struct class_attribute *attr, const char *buf, size_t size)
 {
 	int val[4] = {0,};
+
+	if (strnchr(buf, size, '-')) {
+		pr_err("%s range option not allowed\n", __func__);
+		return -EINVAL;
+	}
 
 	get_options(buf, 4, val);
 
@@ -3617,6 +3653,11 @@ static ssize_t dex_store(struct class *dev,
 
 	if (displayport->dp_not_support)
 		return size;
+
+	if (strnchr(buf, size, '-')) {
+		pr_err("%s range option not allowed\n", __func__);
+		return -EINVAL;
+	}
 
 	get_options(buf, 2, val);
 
@@ -3716,6 +3757,11 @@ static ssize_t dp_sbu_sw_sel_store(struct class *dev,
 	struct displayport_device *displayport = get_displayport_drvdata();
 	int val[10] = {0,};
 	int aux_sw_sel, aux_sw_oe;
+
+	if (strnchr(buf, size, '-')) {
+		pr_err("%s range option not allowed\n", __func__);
+		return -EINVAL;
+	}
 
 	get_options(buf, 10, val);
 
