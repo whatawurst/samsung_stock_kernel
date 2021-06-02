@@ -6,4 +6,4 @@ export ANDROID_MAJOR_VERSION=r
 export ARCH=arm64
 
 make ARCH=arm64 exynos9820-beyond1lte_defconfig
-make ARCH=arm64 -j64
+make ARCH=arm64 -j16
